@@ -24,7 +24,7 @@ public class EventAdapter extends BaseAdapter {
 
     public EventAdapter(Context context, List<Event> list) {
         this.list = list;
-        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -46,10 +46,11 @@ public class EventAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         if (view == null) {
-            view = layoutInflater.inflate(R.layout.activity_main, parent, false);
+//            view = layoutInflater.inflate(R.layout.activity_main, parent, false);
+            view = layoutInflater.from(parent.getContext()).inflate(R.layout.event_list_item,parent,false);
         }
         Event event = getEvent(position);
-        TextView textView = (TextView) view.findViewById(R.id.textView);
+        TextView textView = (TextView) view.findViewById(R.id.event_item_text);
         textView.setText(event.toString());
 
         return view;

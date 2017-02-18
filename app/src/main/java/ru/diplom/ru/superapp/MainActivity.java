@@ -16,6 +16,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import ru.diplom.ru.superapp.adapter.EventAdapter;
@@ -23,12 +25,16 @@ import ru.diplom.ru.superapp.model.Event;
 
 public class MainActivity extends AppCompatActivity {
 
-    ListView listView;
+    private ListView listView;
+    private EventAdapter eventAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listView = (ListView)findViewById(R.id.listView);
+        eventAdapter = new EventAdapter(MainActivity.this, Collections.<Event>emptyList());
+        listView.setAdapter(eventAdapter);
+
         new JsonTask().execute("http://192.168.56.1:8080/api");
     }
     public class JsonTask extends AsyncTask<String,String, String> {
@@ -71,9 +77,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-//            final TextView textView = (TextView)findViewById(R.id.text);
-//            textView.setText(s);
-            EventAdapter eventAdapter = new EventAdapter(MainActivity.this, list);
+            eventAdapter.notifyDataSetChanged();
+            final TextView textView = (TextView)findViewById(R.id.textView);
+            textView.setText(s);
+//            EventAdapter eventAdapter = new EventAdapter(MainActivity.this, list);
         }
     }
 }
